@@ -7,22 +7,43 @@ import ReactTooltip from "react-tooltip";
 import Snackbar from "awesome-snackbar";
 
 export default function App() {
+  const emptyInvosURL = "?invos=00000000000000000000000000000000000000000000";
   const [invos, setInvos] = useState(invoObjs);
   const [totalPoints, setTotalPoints] = useState(0);
   const [totalSelected, setTotalSelected] = useState(0);
   const [showTooltip, setShowTooltip] = useState(true);
 
   useEffect(() => {
+    const queryString = window.location.search;
+    const urlInvos = new URLSearchParams(queryString)?.get("invos");
+    if (urlInvos) {
+      urlInvos?.split("").forEach((preSelected, i) => {
+        if (preSelected === "1") {
+          invos[i].selected = true;
+        }
+      });
+      setInvos([...invos]);
+    } else {
+      window.history.pushState({}, "", emptyInvosURL);
+    }
+  }, []);
+
+  useEffect(() => {
     let tempPoints = 0;
     let tempSelected = 0;
+    let newURL = "?invos=";
 
     invos.forEach((invo) => {
       if (invo.selected) {
         tempPoints += invo.points;
         tempSelected++;
+        newURL += "1";
+      } else {
+        newURL += "0";
       }
     });
 
+    window.history.pushState({}, "", newURL);
     setTotalPoints(tempPoints);
     setTotalSelected(tempSelected);
   }, [invos]);
@@ -84,6 +105,7 @@ export default function App() {
   }
 
   function handleReset() {
+    window.history.pushState({}, "", emptyInvosURL);
     setInvos([
       ...invos.map((invo) => {
         invo.selected = false;
@@ -94,32 +116,30 @@ export default function App() {
 
   return (
     <div className="App">
-      <div className="wrapper">
-        <div className="invo-wrapper" onMouseLeave={handleLeave}>
-          {invos.map((invo, i) => {
-            return (
-              <Invocation
-                ind={i}
-                lit={invo.selected}
-                key={i}
-                description={invo.description}
-                handleClick={() => handleClick(invo, i)}
-              />
-            );
-          })}
-        </div>
-        <Rewards
-          totalPoints={totalPoints}
-          totalSelected={totalSelected}
-          handleReset={handleReset}
-        />
+      <div className="invo-wrapper" onMouseLeave={handleLeave}>
+        {invos.map((invo, i) => {
+          return (
+            <Invocation
+              ind={i}
+              lit={invo.selected}
+              key={i}
+              description={invo.description}
+              handleClick={() => handleClick(invo, i)}
+            />
+          );
+        })}
       </div>
+      <Rewards
+        totalPoints={totalPoints}
+        totalSelected={totalSelected}
+        handleReset={handleReset}
+      />
       {showTooltip && (
         <ReactTooltip
           place="bottom"
           effect="solid"
           multiline={true}
-          delayShow={500}
+          delayShow={250}
         />
       )}
     </div>

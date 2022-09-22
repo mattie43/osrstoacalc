@@ -9,13 +9,9 @@
   background-repeat: no-repeat;
   background-size: cover;
 
-  .wrapper {
+  .invo-wrapper {
     display: flex;
-
-    .invo-wrapper {
-      display: flex;
-      flex-wrap: wrap;
-      max-width: 452px;
-    }
+    flex-wrap: wrap;
+    max-width: 452px;
   }
 }
