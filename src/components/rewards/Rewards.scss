@@ -1,0 +1,17 @@
+.rewards-wrapper {
+  position: relative;
+  margin-left: 22px;
+  .rewards-points {
+    position: absolute;
+    top: 68px;
+    left: 43px;
+  }
+  .rewards-selected {
+    position: absolute;
+    top: 68px;
+    right: 60px;
+  }
+  #rewards-reset {
+    cursor: pointer;
+  }
+}

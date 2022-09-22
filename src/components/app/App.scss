@@ -1,0 +1,21 @@
+.App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  background-image: url(../../imgs/ToaSplashScreen.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .wrapper {
+    display: flex;
+
+    .invo-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 452px;
+    }
+  }
+}
