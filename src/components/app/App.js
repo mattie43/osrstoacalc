@@ -37,7 +37,8 @@ export default function App() {
     //Check for single category
     if (invo.single) {
       tempInvos.forEach((x) => {
-        if (x.category === invo.category) x.selected = false;
+        if (x.category === invo.category && x.name !== invo.name)
+          x.selected = false;
       });
     }
 
